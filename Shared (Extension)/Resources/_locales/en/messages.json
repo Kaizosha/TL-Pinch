@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "TL;Pinch",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Pinch to see less, know more - Summarize web pages and explain selected text with AI",
+        "description": "Description of what the extension does."
+    }
+}

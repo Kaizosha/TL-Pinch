@@ -1,0 +1,57 @@
+# Xcode
+DerivedData/
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xcscmblueprint
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# iOS
+*.ipa
+
+# Safari Web Extension
+*.webextensionbuild
+*.webextensionlocal
+
+# User settings
+*.xcuserstate
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Logs
+*.log
+
+# Node/npm
+node_modules/
+
+# Environment
+.env
+.env.*
+
+# Misc
+*.swp
+*.swo
+
+# Ignore output and cache
+.cache/
+
+# Ignore system files
+Thumbs.db
+Desktop.ini
+
+# Ignore backup files
+*~

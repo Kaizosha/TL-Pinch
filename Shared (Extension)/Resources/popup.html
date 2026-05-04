@@ -1,11 +1,12 @@
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
 <style>
-    html, body { 
-        background: transparent !important; 
-        background-color: transparent !important; 
+    html, body {
+        background: transparent !important;
+        background-color: transparent !important;
         color-scheme: light dark;
     }
 </style>
@@ -13,127 +14,13 @@
 <link rel="stylesheet" type="text/css" href="popup.css" />
 </head>
 <body>
-    <!-- Main Content -->
     <div id="mainContent" class="main-content">
-    <div id="summaryResult" class="container"></div>
-        
-        <!-- Settings Section (initially hidden) -->
-        <div id="settingsSection" class="settings-section" style="display: none;">
-            <div class="provider-selection">
-                <label>Active Provider:</label>
-                <select id="providerSelect">
-                    <option value="claude">Claude (Anthropic)</option>
-                    <option value="openai">OpenAI GPT</option>
-                    <option value="gemini">Google Gemini</option>
-                </select>
-            </div>
+        <div id="summaryResult" class="container"></div>
 
-            <div id="apiKeyConfig" class="api-key-config">
-                <div class="api-key-section" data-provider="claude" style="display: none;">
-                    <label for="claudeApiKey">Claude API Key:</label>
-                    <div class="api-key-input-group">
-                        <input type="password" id="claudeApiKey" placeholder="sk-ant-...">
-                        <button type="button" class="toggle-visibility" data-target="claudeApiKey">Show</button>
-                    </div>
-                    <small>Get from: <a href="https://console.anthropic.com/settings/keys" target="_blank">Anthropic Console</a></small>
-                    
-                    <div class="model-selection">
-                        <label for="claudeModel">Model:</label>
-                        <select id="claudeModel">
-                            <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
-                            <option value="claude-3-5-haiku-20241022">Claude 3.5 Haiku</option>
-                            <option value="claude-3-opus-20240229">Claude 3 Opus</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="api-key-section" data-provider="openai" style="display: none;">
-                    <label for="openaiApiKey">OpenAI API Key:</label>
-                    <div class="api-key-input-group">
-                        <input type="password" id="openaiApiKey" placeholder="sk-...">
-                        <button type="button" class="toggle-visibility" data-target="openaiApiKey">Show</button>
-                    </div>
-                    <small>Get from: <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></small>
-                    
-                    <div class="model-selection">
-                        <label for="openaiModel">Model:</label>
-                        <select id="openaiModel">
-                            <option value="gpt-4.1">GPT-4.1 (Latest)</option>
-                            <option value="gpt-4-turbo-preview">GPT-4 Turbo</option>
-                            <option value="gpt-4">GPT-4</option>
-                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="api-key-section" data-provider="gemini" style="display: none;">
-                    <label for="geminiApiKey">Gemini API Key:</label>
-                    <div class="api-key-input-group">
-                        <input type="password" id="geminiApiKey" placeholder="AIza...">
-                        <button type="button" class="toggle-visibility" data-target="geminiApiKey">Show</button>
-                    </div>
-                    <small>Get from: <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a></small>
-                    
-                    <div class="model-selection">
-                        <label for="geminiModel">Model:</label>
-                        <select id="geminiModel">
-                            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-                            <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
-                            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="advanced-settings">
-                <div class="settings-section-header">
-                    <h4>Advanced Settings</h4>
-                    <button id="toggleAdvanced" class="toggle-advanced">Show Advanced</button>
-                </div>
-                
-                <div id="advancedOptions" class="advanced-options" style="display: none;">
-                    <div class="prompt-customization">
-                        <h5>Custom Prompts</h5>
-                        
-                        <div class="prompt-section">
-                            <label for="summaryPrompt">Summary Prompt (System Message):</label>
-                            <textarea id="summaryPrompt" rows="4" placeholder="Enter custom system prompt for summaries..."></textarea>
-                        </div>
-                        
-                        <div class="prompt-section">
-                            <label for="explanationPrompt">Explanation Prompt (System Message):</label>
-                            <textarea id="explanationPrompt" rows="4" placeholder="Enter custom system prompt for explanations..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="reset-section">
-                        <button id="resetToDefaults" class="secondary reset-btn">Reset All to Defaults</button>
-                        <small>This will reset prompts, models, and other settings to their default values.</small>
-                    </div>
-                </div>
-    </div>
-
-            <div class="settings-actions">
-                <button id="saveSettings" class="primary">Save Settings</button>
-                <button id="testConnection" class="secondary">Test Connection</button>
-            </div>
-
-            <div id="settingsStatus" class="settings-status"></div>
-    </div>
-        
-        <!-- Removed redundant buttonsContainer - footer contains all buttons now -->
-        
-        <!-- Footer (appears at end of content) -->
         <footer id="footer" class="footer">
             <div class="footer-content">
-                <div class="footer-left">
-                    <div class="creator-info">Created by Kaizosha</div>
-                    <div class="ai-info">Summarized by <span id="currentAiProvider">Claude</span></div>
-                </div>
-                <div class="footer-right">
-                    <button id="footerRefreshButton" class="footer-btn" title="Refresh">REFRESH</button>
-                    <button id="footerSettingsButton" class="footer-btn" title="Settings">SETTINGS</button>
-                </div>
+                <div class="footer-signature"><em><strong>Kaiz&#333;sha</strong>/AppleIntelligence</em></div>
+                <button id="footerRefreshButton" class="footer-refresh" title="Refresh" aria-label="Refresh">&#8635;</button>
             </div>
         </footer>
     </div>

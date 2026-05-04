@@ -26,6 +26,8 @@ const ContentLogger = {
     }
 };
 
+const EXTRACTION_CHARACTER_LIMIT = 60_000;
+
 class ContentExtractor {
     constructor() {
         ContentLogger.log("ContentExtractor initialized");
@@ -101,8 +103,8 @@ class ContentExtractor {
             content.text = this.extractTextFromElement(mainContent);
             
             // Limit content size for performance
-            if (content.text.length > 12000) {
-                content.text = content.text.substring(0, 12000) + "...";
+            if (content.text.length > EXTRACTION_CHARACTER_LIMIT) {
+                content.text = content.text.substring(0, EXTRACTION_CHARACTER_LIMIT).trim() + "...";
             }
         }
 
@@ -156,9 +158,13 @@ class ContentExtractor {
         
         // Clean up text
         text = text
-            .replace(/\s+/g, ' ')           // Normalize whitespace
-            .replace(/[\r\n]+/g, ' ')       // Remove line breaks
-            .replace(/\t+/g, ' ')           // Remove tabs
+            .replace(/\r\n/g, '\n')
+            .replace(/\r/g, '\n')
+            .replace(/\u00a0/g, ' ')
+            .replace(/[ \t]+\n/g, '\n')
+            .replace(/\n[ \t]+/g, '\n')
+            .replace(/[ \t]{2,}/g, ' ')
+            .replace(/\n{3,}/g, '\n\n')
             .trim();                        // Trim edges
         
         return text;

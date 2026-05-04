@@ -6,84 +6,99 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct LaunchScreenView: View {
-    @State private var showSheet: Bool = false
-    @State private var animationStarted: Bool = false
+    @State private var showSheet = false
+    @State private var animationStarted = false
     @State private var pinchScale: CGFloat = 1.0
+    @State private var feedbackTrigger = 0
+    @State private var animationTask: Task<Void, Never>?
 
-    // Arrow start and end positions
-    let startOffset1 = CGSize(width: 148, height: -340)
-    let startOffset2 = CGSize(width: -148, height: 340)
-    let meetPoint1 = CGSize(width: 22, height: -50)
-    let meetPoint2 = CGSize(width: -22, height: 50)
-    let pinchThreshold: CGFloat = 0.6
+    @ScaledMetric(relativeTo: .largeTitle) private var arrowSize = 45
+    @ScaledMetric(relativeTo: .largeTitle) private var startHorizontalOffset = 148
+    @ScaledMetric(relativeTo: .largeTitle) private var startVerticalOffset = 340
+    @ScaledMetric(relativeTo: .title2) private var meetHorizontalOffset = 22
+    @ScaledMetric(relativeTo: .title2) private var meetVerticalOffset = 50
+
+    private let pinchThreshold: CGFloat = 0.6
 
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader { _ in
             ZStack {
-                // Arrows
                 Image(systemName: "arrow.down.left")
                     .resizable()
-                    .frame(width: 45, height: 45)
+                    .frame(width: arrowSize, height: arrowSize)
                     .rotationEffect(.degrees(-21))
-                    .offset(interpolatedOffset(start: startOffset1, end: meetPoint1))
+                    .offset(
+                        interpolatedOffset(
+                            start: CGSize(width: startHorizontalOffset, height: -startVerticalOffset),
+                            end: CGSize(width: meetHorizontalOffset, height: -meetVerticalOffset)
+                        )
+                    )
+
                 Image(systemName: "arrow.up.right")
                     .resizable()
-                    .frame(width: 45, height: 45)
+                    .frame(width: arrowSize, height: arrowSize)
                     .rotationEffect(.degrees(-21))
-                    .offset(interpolatedOffset(start: startOffset2, end: meetPoint2))
+                    .offset(
+                        interpolatedOffset(
+                            start: CGSize(width: -startHorizontalOffset, height: startVerticalOffset),
+                            end: CGSize(width: -meetHorizontalOffset, height: meetVerticalOffset)
+                        )
+                    )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .sensoryFeedback(.impact(weight: .heavy), trigger: feedbackTrigger)
             .onAppear {
-                // Start animation immediately
-                if !animationStarted {
-                    animationStarted = true
-                    startAnimation()
+                guard !animationStarted else {
+                    return
                 }
+
+                animationStarted = true
+                startAnimation()
+            }
+            .onDisappear {
+                animationTask?.cancel()
             }
             .sheet(isPresented: $showSheet, onDismiss: {
-                let generator = UIImpactFeedbackGenerator(style: .heavy)
-                generator.impactOccurred()
-                
-                // Reset and start animation immediately after sheet is dismissed
+                feedbackTrigger += 1
                 animationStarted = false
                 pinchScale = 1.0
-                
-                // Start animation immediately
                 animationStarted = true
                 startAnimation()
             }) {
                 StartView()
+                    .pinchPrimarySheetPresentation()
             }
         }
     }
-    
-    // Interpolate between start and end based on pinch scale
+
     private func interpolatedOffset(start: CGSize, end: CGSize) -> CGSize {
-        let t = min(max((1 - pinchScale) / (1 - pinchThreshold), 0), 1)
-        let width = start.width + (end.width - start.width) * t
-        let height = start.height + (end.height - start.height) * t
+        let progress = min(max((1 - pinchScale) / (1 - pinchThreshold), 0), 1)
+        let width = start.width + (end.width - start.width) * progress
+        let height = start.height + (end.height - start.height) * progress
         return CGSize(width: width, height: height)
     }
-    
-    // Animation function to bring arrows together, trigger sheet, and move back to corners
+
     private func startAnimation() {
-        // First animation: bring arrows together
+        animationTask?.cancel()
+
         withAnimation(.easeInOut(duration: 1.5)) {
-            pinchScale = pinchThreshold - 0.1 // Go below threshold to trigger
+            pinchScale = pinchThreshold - 0.1
         }
-        
-        // When arrows meet, trigger sheet and move back to corners
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            let generator = UIImpactFeedbackGenerator(style: .heavy)
-            generator.impactOccurred()
+
+        animationTask = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1.5))
+
+            guard !Task.isCancelled else {
+                return
+            }
+
+            feedbackTrigger += 1
             showSheet = true
-            
-            // Move arrows back to corners
+
             withAnimation(.easeInOut(duration: 0.5)) {
-                pinchScale = 1.0 // This moves arrows back to corners
+                pinchScale = 1.0
             }
         }
     }
@@ -91,5 +106,4 @@ struct LaunchScreenView: View {
 
 #Preview {
     LaunchScreenView()
-} 
- 
+}

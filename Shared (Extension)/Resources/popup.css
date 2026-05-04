@@ -1,348 +1,166 @@
-/* CRITICAL: Force transparent backgrounds for Safari extension popup */
-html {
+html,
+body,
+:root {
     background: transparent !important;
     background-color: transparent !important;
     color-scheme: light dark;
 }
 
-body {
-    background: transparent !important;
-    background-color: transparent !important;
-}
-
-/* Override any possible Safari extension defaults */
 :root {
-    background: transparent !important;
-    background-color: transparent !important;
-}
-
-:root {
-    /* Color System - all backgrounds transparent */
-    --bg-primary: transparent;
-    --bg-secondary: transparent;
-    --bg-tertiary: transparent;
-    
     --text-primary: #333333;
     --text-secondary: #666666;
     --text-tertiary: #8e8e93;
-    
-    --border-primary: #e5e5e7;
-    --border-secondary: #f0f0f0;
-    
-    --accent-primary: #007AFF;
-    --accent-secondary: #0a84ff;
-    
+    --border-primary: rgba(60, 60, 67, 0.18);
+    --border-secondary: rgba(60, 60, 67, 0.08);
+    --surface-subtle: rgba(60, 60, 67, 0.06);
+    --accent-primary: #007aff;
     --error-primary: #ff3b30;
-    --error-secondary: #ff453a;
-    
-    --success-primary: #34c759;
-    --success-secondary: #30d158;
-    
-    /* Typography - iPhone-friendly larger sizes */
-    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-size-xs: 15px;    /* Increased from 13px */
-    --font-size-sm: 16px;    /* Increased from 14px */
-    --font-size-base: 17px;  /* Increased from 16px - iOS default body text */
-    --font-size-lg: 19px;    /* Increased from 18px */
-    --font-size-xl: 22px;    /* Increased from 20px */
-    --font-size-2xl: 28px;   /* Increased from 24px */
-    
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-size-xs: 15px;
+    --font-size-sm: 16px;
+    --font-size-base: 17px;
+    --font-size-lg: 20px;
+    --font-size-xl: 24px;
+    --spacing-xs: 6px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+    --sheet-side-padding: clamp(18px, 5vw, 24px);
+    --sheet-top-padding: 16px;
+    --sheet-bottom-padding: 20px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
     --line-height-tight: 1.2;
     --line-height-normal: 1.4;
     --line-height-relaxed: 1.6;
-    
-    /* Spacing - iPhone-friendly larger spacing */
-    --spacing-xs: 6px;   /* Increased from 4px */
-    --spacing-sm: 12px;  /* Increased from 8px */
-    --spacing-md: 16px;  /* Increased from 12px */
-    --spacing-lg: 20px;  /* Increased from 16px */
-    --spacing-xl: 24px;  /* Increased from 20px */
-    --spacing-2xl: 32px; /* Increased from 24px */
-    
-    /* Border Radius */
-    --radius-sm: 6px;    /* Increased from 4px */
-    --radius-md: 8px;    /* Increased from 6px */
-    --radius-lg: 12px;   /* Increased from 8px */
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    
-    /* Transitions */
-    --transition-fast: 0.15s ease;
-    --transition-normal: 0.2s ease;
-    --transition-slow: 0.3s ease;
-    
-    /* Focus */
-    --focus-ring: 0 0 0 2px var(--accent-primary);
+    --focus-ring: 0 0 0 2px rgba(10, 132, 255, 0.25);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        /* Dark theme colors - all backgrounds transparent */
-        --bg-primary: transparent;
-        --bg-secondary: transparent;
-        --bg-tertiary: transparent;
-        
         --text-primary: #ffffff;
-        --text-secondary: #8e8e93;
-        --text-tertiary: #636366;
-        
-        --border-primary: #38383a;
-        --border-secondary: #48484a;
-        
-        --accent-primary: #0a84ff;
-        --accent-secondary: #007AFF;
-        
-        --error-primary: #ff453a;
-        --error-secondary: #ff3b30;
-        
-        --success-primary: #30d158;
-        --success-secondary: #34c759;
-    }
-    
-    /* Explicit overrides for mobile Safari dark mode */
-    body {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .main-content {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .container {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .structured-summary {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .settings-section {
-        background: transparent !important;
-        background-color: transparent !important;
+        --text-secondary: #c7c7cc;
+        --text-tertiary: #8e8e93;
+        --border-primary: rgba(255, 255, 255, 0.14);
+        --border-secondary: rgba(255, 255, 255, 0.08);
+        --surface-subtle: rgba(255, 255, 255, 0.06);
     }
 }
 
-/* Base Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    scroll-behavior: smooth;  /* Enable smooth scrolling for all elements */
-}
-
-/* Apply transparent backgrounds to all elements except primary buttons */
-*:not(button.primary), *:not(button.primary)::before, *:not(button.primary)::after {
-    background: transparent !important;  /* Force transparent for all elements except primary buttons */
-    background-color: transparent !important;
 }
 
 html {
+    min-height: 100%;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;  /* Enable momentum scrolling on iOS */
-    background: transparent !important;
-    background-color: transparent !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
 
 body {
+    margin: 0;
+    min-width: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: var(--sheet-top-padding) var(--sheet-side-padding) var(--sheet-bottom-padding);
     font-family: var(--font-family);
     font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
     color: var(--text-primary);
-    background: transparent;
-    margin: 0;
-    padding: var(--spacing-sm) var(--spacing-xl);  /* Reduced from spacing-md to spacing-sm for top/bottom */
-    min-width: 320px;            /* Increased from 280px for iPhone */
-    min-height: 100vh;           /* Full viewport height */
-    text-align: left;
-    word-wrap: break-word;
-    hyphens: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;  /* Enable momentum scrolling */
-    overflow-x: hidden;  /* Prevent horizontal scroll */
-    display: flex;               /* Use flexbox */
-    flex-direction: column;      /* Stack children vertically */
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 var(--spacing-sm) 0;
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
-    line-height: var(--line-height-tight);
-}
-
-h1 { font-size: var(--font-size-xl); }
-h2 { font-size: var(--font-size-lg); }
-h3 { font-size: var(--font-size-base); }
-h4 { font-size: var(--font-size-sm); }
-
-p {
-    margin: 0 0 var(--spacing-sm) 0;
-    line-height: var(--line-height-relaxed);
-}
-
-p:last-child {
-    margin-bottom: 0;
-}
-
-/* Button styles - simplified since only footer buttons remain */
-
-/* Removed .buttons-container and .buttons-row styles - no longer needed */
-
-.button-group {
+    background: transparent !important;
+    background-color: transparent !important;
     display: flex;
-    gap: var(--spacing-sm);
+    flex-direction: column;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-.button-group.left {
-    justify-content: flex-start;
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
-.button-group.right {
-    justify-content: flex-end;
-}
-
-button {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    color: var(--text-primary);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    transition: all 0.2s ease;
-    line-height: var(--line-height-tight);
-}
-
-button:hover {
-    background: var(--bg-tertiary);
-    border-color: var(--border-secondary);
-    transform: translateY(-1px);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-button.primary {
-    background: var(--accent-primary) !important;
-    color: #ffffff !important;
-    border: 2px solid var(--accent-primary);
-    font-weight: var(--font-weight-semibold);
-    min-height: 44px;
-}
-
-button.primary:hover {
-    background: var(--accent-secondary) !important;
-    border-color: var(--accent-secondary) !important;
-    color: #ffffff !important;
-}
-
-button.secondary {
-    background: transparent;
-    border: 1px solid var(--border-primary);
-    color: var(--text-primary);
-}
-
-button.secondary:hover {
-    background: var(--bg-secondary);
-    border-color: var(--border-secondary);
-}
-
-/* Summary Header */
-.summary-header {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    line-height: var(--line-height-tight);
-    margin-bottom: var(--spacing-md);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;           /* Limit to 2 lines */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-}
-
-/* Mobile responsive for summary header */
-@media (max-width: 400px) {
-    .summary-header {
-        font-size: var(--font-size-xs);
-        margin-bottom: var(--spacing-sm);  /* Reduced margin on mobile */
-        line-height: var(--line-height-tight);
+@supports (padding: max(0px)) {
+    body {
+        padding-top: max(var(--sheet-top-padding), calc(env(safe-area-inset-top) + var(--spacing-sm)));
+        padding-right: max(var(--sheet-side-padding), calc(env(safe-area-inset-right) + var(--spacing-md)));
+        padding-bottom: max(var(--sheet-bottom-padding), calc(env(safe-area-inset-bottom) + var(--spacing-md)));
+        padding-left: max(var(--sheet-side-padding), calc(env(safe-area-inset-left) + var(--spacing-md)));
     }
 }
 
-/* Container Elements */
-.container {
-    margin-bottom: var(--spacing-lg);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+button {
+    font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+details:focus-visible,
+summary:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 100%;
     background: transparent;
-    scroll-behavior: smooth;
-    flex-grow: 1;                /* Allow container to grow and fill space */
 }
 
-.container:last-child {
-    margin-bottom: 0;
-}
-
-/* Summary container should have minimal spacing */
-#summaryResult .container {
+.container {
+    flex: 1;
+    width: 100%;
     margin-bottom: var(--spacing-md);
 }
 
-/* Summary Result */
 #summaryResult {
+    margin-top: clamp(14px, 3vh, var(--spacing-lg));
+    color: var(--text-primary);
+    line-height: var(--line-height-relaxed);
+}
+
+.summary-header {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.answer-content,
+.main-summary,
+.topic-description {
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
     color: var(--text-primary);
-    margin-top: var(--spacing-lg);
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
 }
 
-/* Summary title styling */
-#summaryResult h4 {
-    margin-bottom: var(--spacing-sm) !important;
-    color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
-}
-
-/* Answer Content */
-.answer-content {
-    color: var(--text-primary);  /* Changed from text-secondary to text-primary for better visibility */
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
-    margin: var(--spacing-sm) 0 0 0;
-}
-
-/* Structured Summary Styles */
 .structured-summary {
-    margin: var(--spacing-sm) 0 0 0;
-    background: transparent;
-}
-
-.main-summary {
-    color: var(--text-primary);
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
-    margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
 }
 
 .topics-container {
@@ -352,841 +170,229 @@ button.secondary:hover {
 }
 
 .topic-item {
-    margin-bottom: var(--spacing-md);
-}
-
-.topic-header {
     display: flex;
-    align-items: center;  /* Center align text block */
-    margin-bottom: var(--spacing-xs);  /* Reduced from spacing-sm for tighter spacing */
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
 .topic-heading {
-    margin: 0;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
     line-height: var(--line-height-tight);
-    flex: 1;
-    display: flex;
-    align-items: center;  /* Center the text within its container */
-}
-
-.topic-description {
-    color: var(--text-primary);  /* Changed from text-secondary to match summary text */
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
-    margin: 0;
-}
-
-/* Enhanced text formatting within descriptions */
-.topic-description strong {
     color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
 }
 
-.topic-description code {
-    background: transparent;  /* Changed to transparent */
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: var(--font-size-sm);
+.topic-description strong,
+.answer-content strong,
+.main-summary strong {
+    font-weight: 700;
+}
+
+code {
+    padding: 1px 4px;
     border: 1px solid var(--border-secondary);
+    border-radius: 4px;
+    font-size: var(--font-size-sm);
 }
 
-/* Responsive adjustments for structured content */
-@media (max-width: 400px) {
-    .topic-heading {
-        font-size: var(--font-size-base);  /* Increased from sm */
-    }
-    
-    .topic-description {
-        font-size: var(--font-size-base);  /* Increased from sm */
-    }
+.sources-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-primary);
 }
 
-/* Buttons Container */
-#buttonsContainer {
-    margin-top: var(--spacing-lg);
-    flex-shrink: 0;              /* Prevent buttons from shrinking */
+.sources-title {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-/* Loading States */
+.sources-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.source-link {
+    display: block;
+    text-decoration: none;
+}
+
+.source-title {
+    display: block;
+    color: var(--accent-primary);
+}
+
+.source-domain {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-tertiary);
+    font-size: var(--font-size-xs);
+}
+
 .loading {
     color: var(--text-secondary);
     font-style: italic;
 }
 
-/* Error States - Enhanced */
-.error {
-    color: var(--error-primary);
-    font-weight: var(--font-weight-medium);
+.loading-centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    padding: 0 var(--spacing-lg);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.loading-bloom {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: min(100%, 280px);
+    min-height: 72px;
+    padding: 12px 18px;
+}
+
+.loading-text {
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--text-primary);
+    animation: loadingTextBloom 2.15s ease-in-out infinite;
+}
+
+@keyframes loadingTextBloom {
+    0%, 100% {
+        opacity: 0.8;
+        text-shadow:
+            0 0 0 rgba(10, 132, 255, 0),
+            0 0 0 rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        opacity: 1;
+        text-shadow:
+            0 0 10px rgba(10, 132, 255, 0.28),
+            0 0 22px rgba(255, 255, 255, 0.2);
+    }
 }
 
 .error-container {
-    background: transparent;
-    border: 1px solid var(--error-primary);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
     margin: var(--spacing-md) 0;
+    padding: 18px;
+    border: 1px solid var(--border-primary);
+    border-radius: 18px;
+    background: var(--surface-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error-label {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .error-title {
-    color: var(--error-primary);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-base);
-    margin-bottom: var(--spacing-sm);
-    line-height: var(--line-height-tight);
+    color: var(--text-primary);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .error-message {
     color: var(--text-primary);
-    font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
-    margin-bottom: var(--spacing-md);
 }
 
-.error-action {
-    background: rgba(255, 59, 48, 0.1);
-    border: 1px solid rgba(255, 59, 48, 0.2);
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
-    margin-bottom: var(--spacing-md);
-}
-
-.error-details {
-    margin-top: var(--spacing-md);
-    border-top: 1px solid rgba(255, 59, 48, 0.2);
-    padding-top: var(--spacing-md);
-}
-
-.error-details summary {
+.error-hint {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    user-select: none;
-    margin-bottom: var(--spacing-sm);
-}
-
-.error-details summary:hover {
-    color: var(--text-primary);
-}
-
-.error-details[open] summary {
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
-}
-
-.error-full {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-secondary);
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-sm);
-    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-    font-size: var(--font-size-xs);
-    color: var(--text-secondary);
-    line-height: var(--line-height-normal);
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-@media (prefers-color-scheme: dark) {
-    .error-action {
-        background: rgba(255, 69, 58, 0.15);
-        border-color: rgba(255, 69, 58, 0.3);
-    }
-    
-    .error-full {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: var(--border-primary);
-    }
-    
-    .error-details {
-        border-top-color: rgba(255, 69, 58, 0.3);
-    }
-}
-
-/* Mobile responsive for errors */
-@media (max-width: 400px) {
-    .error-container {
-        padding: var(--spacing-md);
-        margin: var(--spacing-sm) 0;
-    }
-    
-    .error-title {
-        font-size: var(--font-size-sm);
-    }
-    
-    .error-message {
-        font-size: var(--font-size-sm);
-    }
-    
-    .error-action {
-        font-size: var(--font-size-xs);
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-    
-    .error-full {
-        font-size: 11px;
-        padding: var(--spacing-xs);
-    }
-}
-
-/* Success States */
-.success {
-    color: var(--success-primary);
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-}
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-    :root {
-        --border-primary: #000000;
-        --border-secondary: #000000;
-    }
-}
-
-/* Focus Visible */
-*:focus-visible {
-    outline: var(--focus-ring);
-    outline-offset: 2px;
-}
-
-.loading-centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 0;
-  z-index: 1000;
-  background: transparent;
-}
-
-.loading-text {
-  color: var(--text-secondary);
-  font-size: var(--font-size-base);  /* Increased from sm for better visibility */
-  font-weight: var(--font-weight-medium);
-  font-style: italic;
-}
-
-/* Settings Styles */
-.settings-section {
-    margin-top: var(--spacing-lg);
-    background: transparent;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    flex-grow: 1;                /* Allow settings to grow and fill space */
-}
-
-.provider-selection {
-    margin-bottom: var(--spacing-xl);
-    background: transparent;
-}
-
-.provider-selection label {
-    display: block;
-    margin-bottom: var(--spacing-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-}
-
-.provider-selection select {
-    width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg);  /* Increased padding */
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text-primary);
-    font-size: var(--font-size-base);  /* Increased from sm */
-    font-family: var(--font-family);
-    transition: border-color var(--transition-fast);
-    min-height: 44px;  /* Added minimum touch target height */
-}
-
-.provider-selection select:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
-}
-
-.api-key-config {
-    margin-bottom: var(--spacing-xl);
-    min-height: 140px;
-    background: transparent;
-}
-
-.api-key-section {
-    margin-bottom: 0;
-    padding: var(--spacing-md);
-    border: 1px solid var(--border-secondary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    transition: all var(--transition-normal);
-}
-
-.api-key-section:not([style*="display: block"]) {
-    display: none !important;
-}
-
-.model-selection {
-    margin-top: var(--spacing-md);
-    padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-secondary);
-    background: transparent;
-}
-
-.model-selection label {
-    display: block;
-    margin-bottom: var(--spacing-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-}
-
-.model-selection select {
-    width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    font-family: var(--font-family);
-    transition: border-color var(--transition-fast);
-}
-
-.model-selection select:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
-}
-
-/* Advanced Settings */
-.advanced-settings {
-    margin-top: var(--spacing-xl);
-    border-top: 1px solid var(--border-primary);
-    padding-top: var(--spacing-lg);
-    background: transparent;
-}
-
-.settings-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-}
-
-.settings-section-header h4 {
-    margin: 0;
-    color: var(--text-primary);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-}
-
-.toggle-advanced {
-    background: none;
-    border: 1px solid var(--border-primary);
-    color: var(--text-secondary);
-    font-size: var(--font-size-xs);
-    cursor: pointer;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-    text-decoration: none;
-}
-
-.toggle-advanced:hover {
-    background: transparent;  /* Changed to transparent */
-    color: var(--text-primary);
-    border-color: var(--accent-primary);
-}
-
-.advanced-options {
-    transition: opacity var(--transition-normal);
-    background: transparent;
-}
-
-.prompt-customization {
-    margin-bottom: var(--spacing-xl);
-    background: transparent;
-}
-
-.prompt-customization h5 {
-    margin: 0 0 var(--spacing-md) 0;
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-}
-
-.prompt-section {
-    margin-bottom: var(--spacing-lg);
-    background: transparent;
-}
-
-.prompt-section:last-child {
-    margin-bottom: 0;
-}
-
-.prompt-section label {
-    display: block;
-    margin-bottom: var(--spacing-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-}
-
-.prompt-section textarea {
-    width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg);  /* Increased padding */
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text-primary);
-    font-size: var(--font-size-base);  /* Increased from sm */
-    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-    line-height: var(--line-height-normal);
-    resize: vertical;
-    min-height: 80px;
-    transition: border-color var(--transition-fast);
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-.prompt-section textarea:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
-}
-
-.prompt-section textarea::placeholder {
-    color: var(--text-tertiary);
-    font-style: italic;
-}
-
-.reset-section {
-    text-align: center;
-    padding: var(--spacing-lg);
-    background: transparent;
-    border: 1px solid var(--border-secondary);
-    border-radius: var(--radius-md);
-}
-
-.reset-btn {
-    background: none;
-    border: 2px solid var(--error-primary);  /* Increased from 1px to 2px to match other buttons */
-    color: var(--error-primary);
-    padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    text-decoration: none;
-}
-
-.reset-btn:hover {
-    background: var(--error-primary);
-    color: #ffffff;  /* Fixed: Use white text instead of transparent */
-}
-
-.reset-section small {
-    display: block;
-    margin-top: var(--spacing-sm);
-    color: var(--text-tertiary);
-    font-size: var(--font-size-xs);
-}
-
-.api-key-input-group {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-xs);
-}
-
-.api-key-input-group input {
-    flex: 1;
-    padding: var(--spacing-md) var(--spacing-lg);  /* Increased padding */
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text-primary);
-    font-size: var(--font-size-base);  /* Increased from sm */
-    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-    transition: border-color var(--transition-fast);
-    min-height: 44px;  /* Added minimum touch target height */
-}
-
-.api-key-input-group input:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
-}
-
-.api-key-input-group input::placeholder {
-    color: var(--text-tertiary);
-}
-
-.toggle-visibility {
-    background: none;
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-sm);
-    padding: var(--spacing-md);  /* Increased padding */
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: var(--font-size-sm);  /* Increased from 11px */
-    transition: all var(--transition-fast);
-    text-decoration: none;
-    min-width: 60px;   /* Increased from 50px */
-    min-height: 44px;  /* Increased from 32px for better touch target */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.toggle-visibility:hover {
-    background: transparent;  /* Changed to transparent */
-    color: var(--text-primary);
-}
-
-.api-key-section small {
-    color: var(--text-tertiary);
-    font-size: var(--font-size-xs);
     line-height: var(--line-height-normal);
 }
 
-.api-key-section small a {
-    color: var(--accent-primary);
-    text-decoration: none;
-}
-
-.api-key-section small a:hover {
-    text-decoration: underline;
-}
-
-.settings-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-}
-
-.settings-actions button {
-    flex: 1;
-    border: 2px solid var(--border-primary);  /* Added border */
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    transition: all var(--transition-fast);
-    text-decoration: none;
-}
-
-.settings-status {
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
-    text-align: center;
-    transition: all var(--transition-fast);
-}
-
-.settings-status.success {
-    background: transparent;  /* Changed to transparent */
-    color: var(--success-primary);
-    border: 1px solid rgba(52, 199, 89, 0.2);
-}
-
-.settings-status.error {
-    background: transparent;  /* Changed to transparent */
-    color: var(--error-primary);
-    border: 1px solid rgba(255, 59, 48, 0.2);
-}
-
-.settings-status.info {
-    background: transparent;  /* Changed to transparent */
-    color: var(--accent-primary);
-    border: 1px solid rgba(0, 122, 255, 0.2);
-}
-
-.main-content {
-    background: transparent;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    flex: 1;                     /* Grow to fill available space */
-    display: flex;               /* Use flexbox for main content */
-    flex-direction: column;      /* Stack children vertically */
-}
-
-/* Responsive Design */
-@media (max-width: 400px) {
-    .settings-actions {
-        flex-direction: column;
-    }
-    
-    .api-key-input-group {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .toggle-visibility {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* Footer that always stays at bottom */
 .footer {
-    position: relative; /* Changed from position: fixed */
-    background: transparent;
+    display: none;
+    margin-top: auto;
+    padding: var(--spacing-md) 0 0 0;
     border-top: 1px solid var(--border-primary);
-    padding: var(--spacing-md) var(--spacing-lg);
-    margin-top: auto; /* This pushes footer to bottom when using flexbox on body */
-    flex-shrink: 0; /* Prevent footer from shrinking */
-    display: none; /* Hidden by default, shown after AI response */
-}
-
-@media (prefers-color-scheme: dark) {
-    .footer {
-        background: transparent;
-        border-top-color: var(--border-secondary);
-    }
 }
 
 .footer-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-xs);
-    background: transparent;  /* Ensure footer content is transparent */
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    min-height: 44px;
 }
 
-.footer-left {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: transparent;  /* Ensure footer left section is transparent */
-}
-
-.creator-info {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    color: var(--text-primary);
-    line-height: var(--line-height-tight);
-}
-
-.ai-info {
-    font-size: var(--font-size-xs);
+.footer-signature {
     color: var(--text-secondary);
+    font-size: var(--font-size-sm);
     line-height: var(--line-height-tight);
 }
 
-#currentAiProvider {
-    font-weight: var(--font-weight-semibold);
+.footer-refresh {
+    border: none;
+    background: none;
+    color: var(--text-primary);
+    font-size: 22px;
+    line-height: 1;
+    padding: 0;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-refresh:hover {
     color: var(--accent-primary);
 }
 
-.footer-right {
-    display: flex;
-    gap: var(--spacing-lg);  /* Increased gap between text buttons */
-    align-items: center;
-    background: transparent;  /* Ensure footer right section is transparent */
+.footer-refresh:active {
+    transform: scale(0.96);
 }
 
-.footer-btn {
-    background: none;
-    border: none;
-    color: var(--text-primary);  /* Changed from accent-primary to text-primary */
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    text-decoration: underline;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    padding: 0;
-    margin: 0;
-    line-height: var(--line-height-tight);
-}
-
-.footer-btn:hover {
-    color: var(--text-secondary);  /* Changed to text-secondary on hover */
-    text-decoration: underline;  /* Keep underline on hover */
-}
-
-.footer-btn:active {
-    transform: none;  /* Remove scale transform for text buttons */
-}
-
-/* Responsive Footer */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     body {
-        padding: var(--spacing-xs) var(--spacing-md);  /* Reduced from spacing-sm to spacing-xs for top/bottom */
-        min-height: 100vh;          /* Maintain full height on mobile */
-        display: flex;              /* Maintain flexbox on mobile */
-        flex-direction: column;     /* Maintain column layout on mobile */
-        background: transparent !important;  /* Force transparent on mobile */
-        background-color: transparent !important;
+        --sheet-side-padding: 16px;
+        --sheet-top-padding: 12px;
+        --sheet-bottom-padding: 16px;
     }
-    
-    .footer {
-        padding: var(--spacing-xs) 0;  /* Reduced from spacing-md to spacing-xs */
-        margin-top: auto;           /* Ensure footer stays at bottom on mobile */
-        background: transparent !important;  /* Force transparent on mobile */
-        background-color: transparent !important;
+
+    .summary-header {
+        font-size: 20px;
     }
-    
-    .footer-content {
-        padding: 0;
-        background: transparent !important;  /* Force transparent on mobile */
-        background-color: transparent !important;
-    }
-    
-    .creator-info,
-    .ai-info {
-        font-size: 13px;
-    }
-    
-    .footer-btn {
-        font-size: 12px;  /* Smaller font for mobile */
-        background: transparent !important;  /* Force transparent on mobile */
-        background-color: transparent !important;
-    }
-    
-    .footer-right {
-        gap: var(--spacing-md);  /* Reduced gap for mobile */
-    }
-    
-    /* Additional mobile overrides for Safari */
-    .main-content {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .container {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
+
     .structured-summary {
-        background: transparent !important;
-        background-color: transparent !important;
+        gap: var(--spacing-lg);
     }
-    
-    .settings-section {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    .footer {
-        background: transparent !important;
-        background-color: transparent !important;
+
+    .topics-container {
+        gap: 18px;
     }
 }
 
-/* WebKit/Safari specific overrides for mobile */
-@supports (-webkit-appearance: none) {
-    body {
-        background: transparent !important;
-        background-color: transparent !important;
-        -webkit-background-clip: border-box !important;
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
-    
-    .main-content,
-    .container,
-    .structured-summary,
-    .settings-section,
-    .footer,
-    .footer-content,
-    .footer-left,
-    .footer-right {
-        background: transparent !important;
-        background-color: transparent !important;
-        -webkit-background-clip: border-box !important;
+
+    .loading-text {
+        animation: none;
+        text-shadow: none;
     }
 }
-
-/* iOS Safari specific overrides */
-@media screen and (-webkit-min-device-pixel-ratio: 1) {
-    html, body {
-        background: transparent !important;
-        background-color: transparent !important;
-        -webkit-appearance: none !important;
-    }
-    
-    *, *::before, *::after {
-        background-color: transparent !important;
-        background: transparent !important;
-        -webkit-appearance: none !important;
-    }
-    
-    /* Force transparency on all common elements */
-    div, section, article, main, header, footer, nav, aside,
-    p, span, h1, h2, h3, h4, h5, h6,
-    ul, ol, li, dl, dt, dd,
-    form, fieldset, legend, input, textarea, select, button,
-    table, thead, tbody, tfoot, tr, th, td {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-}
-
-/* Safari extension popup specific overrides */
-@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
-    html, body {
-        background: transparent !important;
-        background-color: transparent !important;
-        color-scheme: light dark !important;
-    }
-    
-    * {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-}
-
-/* Final fallback - most aggressive Safari override */
-@supports (-webkit-appearance: button) {
-    html {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    body {
-        background: transparent !important;
-        background-color: transparent !important;
-        -webkit-appearance: none !important;
-    }
-    
-    * {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-    
-    *:not(button.primary) {
-        background: transparent !important;
-        background-color: transparent !important;
-    }
-}
-
-/* Universal override for any missed elements */
-div:not(.primary), span, p, section, article, main, 
-header, footer, nav, aside, ul, ol, li {
-    background: transparent !important;
-    background-color: transparent !important;
-}
-

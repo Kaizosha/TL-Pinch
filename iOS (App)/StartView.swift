@@ -5,41 +5,50 @@
 //  Created by Kon on 7/28/25.
 //
 
-import SwiftUI
+import FoundationModels
 import SafariServices
+import SwiftUI
+import TipKit
 
 struct StartView: View {
+    private let model = SystemLanguageModel.default
+    private let howToTip = HowToButtonTip()
     @StateObject private var safariViewModel = SafariViewModel()
     @State private var showHowToSheet = false
-    
+    @ScaledMetric(relativeTo: .largeTitle) private var heroIconSize = 55
+    @ScaledMetric(relativeTo: .title3) private var sectionSpacing = 45
+    @ScaledMetric(relativeTo: .body) private var buttonHorizontalPadding = 20
+    @ScaledMetric(relativeTo: .body) private var buttonVerticalPadding = 16
+    @ScaledMetric(relativeTo: .caption) private var termsBottomPadding = 20
+
     var body: some View {
-        ZStack {
-            VStack {
-                ScrollView {
-                    VStack(spacing: 45) {
-                        headerSection
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        actionButtons
-                        
-                        Spacer()
-                    }
-                    .padding()
+        VStack {
+            ScrollView {
+                VStack(spacing: sectionSpacing) {
+                    headerSection
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    actionButton
+
+                    Spacer()
                 }
-                termsAndPrivacySection
-                    .padding(.bottom, 20)
+                .padding()
             }
+
+            termsAndPrivacySection
+                .padding(.bottom, termsBottomPadding)
         }
+        .background(Color(.systemBackground))
         .handleOpenURLInApp(viewModel: safariViewModel)
+        .sensoryFeedback(.impact(weight: .heavy), trigger: showHowToSheet) { wasPresented, isPresented in
+            wasPresented != isPresented
+        }
         .sheet(isPresented: $showHowToSheet) {
             HowToEnable()
-                .onAppear {
-                    let generator = UIImpactFeedbackGenerator(style: .heavy)
-                    generator.impactOccurred()
-                }
+                .pinchPrimarySheetPresentation()
         }
     }
-    
+
     private var headerSection: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
@@ -51,8 +60,8 @@ struct StartView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .fontDesign(.serif)
-                
-                Text("Pinch to see less, know more - Summarize web pages and explain selected text with AI.")
+
+                Text("pinch to see less, know more.")
                     .foregroundStyle(.secondary)
                     .font(.subheadline)
                     .fontWeight(.medium)
@@ -60,81 +69,115 @@ struct StartView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, 4)
             }
+
             Spacer()
-            // Use a valid SF Symbol or your own asset
+
             Image(systemName: "arrow.up.forward.and.arrow.down.backward")
                 .resizable()
-                .frame(width: 48, height: 48)
+                .frame(width: heroIconSize, height: heroIconSize)
+                .accessibilityHidden(true)
         }
+        .accessibilityElement(children: .combine)
     }
-    
-    private var actionButtons: some View {
-        VStack(spacing: 20) {
-            Button(action: {
-                showHowToSheet = true
-            }) {
-                Label("How to Enable TL;Pinch in Safari", systemImage: "questionmark.circle")
-                    .padding()
-                    .frame(maxWidth: .infinity)
+
+    private var actionButton: some View {
+        PinchGlassGroup(spacing: 20) {
+            HStack(spacing: 16) {
+                Button {
+                    howToTip.invalidate(reason: .actionPerformed)
+                    showHowToSheet = true
+                } label: {
+                    Label("How to Enable TL;Pinch in Safari", systemImage: "questionmark.circle")
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(appleIntelligenceNeedsAttention ? .red : .primary)
+                        .padding(.horizontal, buttonHorizontalPadding)
+                        .padding(.vertical, buttonVerticalPadding)
+                        .frame(maxWidth: .infinity)
+                }
+                .pinchRoundedGlassButton(capsule: true)
+                .popoverTip(howToTip, arrowEdge: .bottom)
             }
-            .font(.body)
-            .fontWeight(.semibold)
-            .foregroundStyle(.background)
-            .background(.foreground)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .shadow(color: .secondary.opacity(0.3), radius: 4, x: 0, y: 0)
         }
     }
-    
+
     private var termsAndPrivacySection: some View {
         VStack(spacing: 8) {
             HStack(spacing: 4) {
-                Text("By using TL;Pinch (by ")
+                Text("By using TL;Pinch ( by ")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                
-                Button("Kaizosha") {
+
+                Button("Kaizōsha") {
                     safariViewModel.openURL(URL(string: "https://kaizosha.org")!)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundStyle(.primary)
                 .underline()
                 .font(.caption)
-                
+
                 Text("), you agree to our")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            
+
             HStack(spacing: 4) {
                 Button("Terms of Service") {
                     safariViewModel.openURL(URL(string: "https://kaizosha.org/terms")!)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundStyle(.primary)
                 .underline()
-                
+
                 Text("and")
                     .foregroundStyle(.secondary)
-                
+
                 Button("Privacy Policy") {
                     safariViewModel.openURL(URL(string: "https://kaizosha.org/privacy")!)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundStyle(.primary)
                 .underline()
             }
             .font(.caption)
         }
         .multilineTextAlignment(.center)
+        .accessibilityElement(children: .contain)
+    }
+
+    private var appleIntelligenceNeedsAttention: Bool {
+        switch model.availability {
+        case .available:
+            false
+        case .unavailable:
+            true
+        }
     }
 }
 
-// --- SafariViewModel and SafariViewControllerViewModifier ---
+private struct HowToButtonTip: Tip {
+    var title: Text {
+        Text("Find help fast")
+    }
 
-class SafariViewModel: ObservableObject {
+    var message: Text? {
+        Text("Open setup tips and support apps whenever you need a hand.")
+    }
+
+    var image: Image? {
+        nil
+    }
+
+    var options: [any TipOption] {
+        [
+            MaxDisplayCount(1)
+        ]
+    }
+}
+
+final class SafariViewModel: ObservableObject {
     @Published var urlToOpen: IdentifiableURL?
-    
+
     func openURL(_ url: URL) {
         urlToOpen = IdentifiableURL(url: url)
     }
@@ -147,7 +190,7 @@ struct IdentifiableURL: Identifiable {
 
 struct SafariViewControllerViewModifier: ViewModifier {
     @ObservedObject var viewModel: SafariViewModel
-    
+
     func body(content: Content) -> some View {
         content
             .sheet(item: $viewModel.urlToOpen) { identifiableURL in
@@ -158,11 +201,11 @@ struct SafariViewControllerViewModifier: ViewModifier {
 
 struct SFSafariView: UIViewControllerRepresentable {
     let url: URL
-    
+
     func makeUIViewController(context: Context) -> SFSafariViewController {
-        return SFSafariViewController(url: url)
+        SFSafariViewController(url: url)
     }
-    
+
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {}
 }
 
@@ -174,5 +217,4 @@ extension View {
 
 #Preview {
     StartView()
-} 
-
+}

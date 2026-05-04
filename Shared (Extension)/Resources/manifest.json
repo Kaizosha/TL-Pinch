@@ -33,7 +33,8 @@
         "scripting",
         "tabs",
         "storage",
-        "webNavigation"
+        "webNavigation",
+        "nativeMessaging"
     ],
     "host_permissions": [
         "<all_urls>"
@@ -42,4 +43,3 @@
         "extension_pages": "script-src 'self'; object-src 'self'"
     }
 }
-
